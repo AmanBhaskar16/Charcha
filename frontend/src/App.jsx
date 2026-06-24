@@ -1,11 +1,10 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import heroImg from './assets/hero.png'
+import { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import './App.css'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const state = useSelector((state) => state.userReducer);
+  const dispatch = useDispatch();
 
   return (
     <>

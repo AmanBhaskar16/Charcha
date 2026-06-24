@@ -5,6 +5,9 @@ import App from './App.jsx'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import { SignupPage } from './pages/auth/SignUp.jsx'
 import { LoginPage } from './pages/auth/Login.jsx'
+import {store} from "./store/store";
+import {Provider} from "react-redux";
+import Home from './pages/home/Home.jsx'
 
 const router = createBrowserRouter([
   { 
@@ -12,8 +15,8 @@ const router = createBrowserRouter([
     element: <App />,
   },
   {
-    path: '/about',
-    element: <div>About Page</div>,
+    path: '/home',
+    element: <Home/>
   },
   {
     path: '/signup',
@@ -26,7 +29,10 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')).render(
-  <RouterProvider router={router}>
-    <App />
-  </RouterProvider>,
+  <Provider store={store}>  
+    <RouterProvider router={router}>
+      <App />
+    </RouterProvider>
+  </Provider>
+  ,
 )
