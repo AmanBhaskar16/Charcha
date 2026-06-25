@@ -1,38 +1,42 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import { SignupPage } from './pages/auth/SignUp.jsx'
-import { LoginPage } from './pages/auth/Login.jsx'
-import {store} from "./store/store";
-import {Provider} from "react-redux";
-import Home from './pages/home/Home.jsx'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
+import "./index.css";
+
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { Provider } from "react-redux";
+
+import { store } from "./store/store";
+
+import App from "./App";
+import Home from "./pages/home/Home";
+import { LoginPage } from "./pages/auth/Login";
+import { SignupPage } from "./pages/auth/SignUp";
 
 const router = createBrowserRouter([
-  { 
-    path: '/',
+  {
+    path: "/",
     element: <App />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: "signup",
+        element: <SignupPage />,
+      },
+      {
+        path: "login",
+        element: <LoginPage />,
+      },
+    ],
   },
-  {
-    path: '/home',
-    element: <Home/>
-  },
-  {
-    path: '/signup',
-    element: <SignupPage />,
-  },
-  {
-    path: '/login',
-    element: <LoginPage />,
-  }
 ]);
 
-createRoot(document.getElementById('root')).render(
-  <Provider store={store}>  
-    <RouterProvider router={router}>
-      <App />
-    </RouterProvider>
-  </Provider>
-  ,
-)
+createRoot(document.getElementById("root")).render(
+  <StrictMode>
+    <Provider store={store}>
+      <RouterProvider router={router} />
+    </Provider>
+  </StrictMode>
+);

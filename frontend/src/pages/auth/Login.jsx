@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AuthLayout } from "../../components/AuthLayout";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { login } from "../../store/slice/auth/authThunk";
 
 export const LoginPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -11,6 +14,13 @@ export const LoginPage = () => {
     password: "",
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isLoggingIn } = useSelector(
+    (state) => state.auth
+  );
+
   const handleChange = (e) => {
     setLoginData((prev) => ({
       ...prev,
@@ -18,13 +28,19 @@ export const LoginPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
-    console.log("Login Data:", loginData);
+    try {
+      await dispatch(login(loginData)).unwrap();
 
-    // login API call here
-  };
+      toast.success("Login successful");
+
+      navigate("/");
+    } catch (error) {
+      toast.error(error);
+    }
+};
 
   return (
     <AuthLayout
@@ -85,8 +101,9 @@ export const LoginPage = () => {
         <button
           type="submit"
           className="btn btn-primary w-full"
+          disabled={isLoggingIn}
         >
-          Login
+          {isLoggingIn ? "Logging in..." : "Login"}
         </button>
 
         <div className="divider">OR</div>

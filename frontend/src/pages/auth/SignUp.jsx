@@ -1,7 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { User,AtSign, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AuthLayout } from "../../components/AuthLayout";
+import { useDispatch, useSelector } from "react-redux";
+import toast from "react-hot-toast";
 
 export const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +15,13 @@ export const SignupPage = () => {
     password: "",
   });
 
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const { isSigningUp } = useSelector(
+    (state) => state.auth
+  );
+
   const handleChange = (e) => {
     setSignupData((prev) => ({
       ...prev,
@@ -20,12 +29,17 @@ export const SignupPage = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+    try {
+      await dispatch(signup(signupData)).unwrap();
 
-    console.log("Signup Data:", signupData);
+      toast.success("Account created successfully");
 
-    // signup API call here
+      navigate("/login");
+    } catch (error) {
+      toast.error(error);
+    }
   };
 
   return (
@@ -100,11 +114,8 @@ export const SignupPage = () => {
           </button>
         </label>
 
-        <button
-          type="submit"
-          className="btn btn-primary w-full"
-        >
-          Create Account
+        <button type="submit" className="btn btn-primary w-full" disabled={isSigningUp}>
+          {isSigningUp ? "Creating Account..." : "Create Account"}
         </button>
 
         <div className="divider">OR</div>

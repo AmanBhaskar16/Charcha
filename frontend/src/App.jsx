@@ -1,16 +1,13 @@
-import { useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import './App.css'
+import { Outlet } from "react-router-dom";
+import { Toaster } from "react-hot-toast";
 
 function App() {
-  const state = useSelector((state) => state.userReducer);
-  const dispatch = useDispatch();
-
   return (
     <>
-      <h2>Charcha</h2>
+      <Toaster position="top-right" />
+      <Outlet />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
