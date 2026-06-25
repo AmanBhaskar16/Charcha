@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { User, Mail, Lock, Eye, EyeOff } from "lucide-react";
+import { User,AtSign, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { useState } from "react";
 import { AuthLayout } from "../../components/AuthLayout";
 
@@ -7,6 +7,7 @@ export const SignupPage = () => {
   const [showPassword, setShowPassword] = useState(false);
 
   const [signupData, setSignupData] = useState({
+    fullName: "",
     username: "",
     email: "",
     password: "",
@@ -33,6 +34,18 @@ export const SignupPage = () => {
       subtitle="Join Charcha and start chatting."
     >
       <form onSubmit={handleSubmit} className="space-y-4">
+        <label className="input w-full">
+          <User size={18} />
+          <input
+            className="grow"
+            type="text"
+            name="fullName"
+            placeholder="Full Name"
+            value={signupData.fullName}
+            onChange={handleChange}
+            required
+          />
+        </label>
         <label className="input w-full">
           <User size={18} />
           <input

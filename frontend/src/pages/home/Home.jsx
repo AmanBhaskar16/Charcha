@@ -5,7 +5,7 @@ import UserSidebar from "../../components/UserSidebar";
 
 
 const Home = () => {
-  const selectedUser = false;
+  const selectedUser = true;
 
   return (
     <div className="flex h-screen bg-base-100">
